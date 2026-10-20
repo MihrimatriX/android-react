@@ -1,0 +1,217 @@
+/* Ripple: one shared implementation; any `.ripple` element gets a state layer and wave. */
+.ripple {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .ripple:hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: currentColor;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+}
+
+.ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.14;
+  transform: scale(0);
+  pointer-events: none;
+  animation: ripple calc(500ms * var(--anim)) var(--ease-decelerate) forwards;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@utility anim {
+  transition-property: transform, translate, scale, opacity, background-color, color, border-radius, width, height, top, left, right, bottom,
+    box-shadow, filter;
+  transition-timing-function: var(--ease-emphasized);
+  transition-duration: calc(300ms * var(--anim));
+}
+
+@utility anim-fast {
+  transition-duration: calc(150ms * var(--anim));
+}
+
+@utility anim-slow {
+  transition-duration: calc(450ms * var(--anim));
+}
+
+@utility enter {
+  animation: enter calc(250ms * var(--anim)) var(--ease-decelerate) both;
+}
+
+@utility enter-up {
+  animation: enter-up calc(350ms * var(--anim)) var(--ease-decelerate) both;
+}
+
+@utility pop {
+  animation: pop calc(250ms * var(--anim)) var(--ease-decelerate) both;
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes buzz {
+  0%,
+  100% {
+    translate: 0;
+  }
+  25% {
+    translate: -2px 0;
+  }
+  75% {
+    translate: 2px 0;
+  }
+}
+
+.buzz {
+  animation: buzz 70ms linear infinite;
+}
+
+@keyframes flash {
+  from {
+    opacity: 0.9;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes tap {
+  from {
+    opacity: 0.6;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+
+@utility enter-down {
+  animation: enter-down calc(380ms * var(--anim)) var(--ease-decelerate) both;
+}
+
+/* Staggered entrance: each item sets --i to its place in the wave. */
+@utility rise {
+  animation: rise calc(440ms * var(--anim)) var(--ease-decelerate) both;
+  animation-delay: calc(var(--i, 0) * 24ms * var(--anim));
+}
+
+@utility unlock-in {
+  animation: unlock-in calc(560ms * var(--anim)) var(--ease-decelerate) both;
+}
+
+@keyframes enter-down {
+  from {
+    opacity: 0;
+    transform: translateY(-32px);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.86);
+  }
+}
+
+@keyframes unlock-in {
+  from {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -4px;
+  }
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    translate: 0 0;
+    opacity: 0.45;
+  }
+  50% {
+    translate: 0 -8px;
+    opacity: 1;
+  }
+}
+
+@keyframes charge {
+  from {
+    transform: scale(0.4);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@keyframes orbit {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 0.5;
+  }
+}
+
+/* Live wallpaper: a slow drift; Shell only adds it while animations are enabled. */
+@keyframes drift {
+  from {
+    transform: scale(1.04) translate(0, 0);
+  }
+  to {
+    transform: scale(1.1) translate(-2.5%, 2%);
+  }
+}
+
+.wallpaper-drift {
+  animation: drift 45s ease-in-out infinite alternate;
+}

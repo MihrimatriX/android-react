@@ -1,0 +1,122 @@
+/* Everything around the phone on desktops: the desk, its torch light, the frame and its keys. */
+
+/* Even-sized stage, so centring the even-sized frame lands on a whole pixel in odd-sized windows too. */
+.stage {
+  width: round(down, 100vw, 2px);
+  height: round(down, 100dvh, 2px);
+}
+
+/* Desktop torch: the back LED washes the whole desk in warm light, blooming out from the top of the phone
+   (the frame's top edge is max(16px, 50% - 457px) in both the native and the shrunk layout).
+   The radius is a typed property so the light grows as a soft circle instead of a scaled box. */
+@property --torch-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+.torch {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle var(--torch-r) at 50% calc(max(16px, 50% - 457px) + 48px),
+    #fffdf8 0,
+    #f7f1e6 10%,
+    #e6dfd2 30%,
+    #cfc8ba 55%,
+    #b9b2a5 75%,
+    transparent 100%
+  );
+  /* Switching off: the light gathers back into the LED. */
+  transition: --torch-r calc(500ms * var(--anim, 1)) var(--ease-accelerate);
+}
+
+/* Switching on: a slower, emphasized bloom so the eye catches the light spreading. */
+.torch.on {
+  --torch-r: 150vmax;
+  transition-duration: calc(1100ms * var(--anim, 1));
+  transition-timing-function: var(--ease-emphasized);
+}
+
+/* Phone frame on desktops; full screen on phones and small windows.
+   The screen is exactly 412×892 px (the 412dp reference) so 1rem = 16px and every spacing step lands on a whole pixel. */
+.frame {
+  position: relative;
+  width: 434px;
+  height: 914px;
+  /* Black glass bezel (padding) inside a brushed aluminium rim (border) lit from the top left.
+     Radii stay concentric: 42px screen + 8px bezel + 3px rim. */
+  border: 3px solid transparent;
+  border-radius: 53px;
+  padding: 8px;
+  background:
+    linear-gradient(#08080a, #08080a) padding-box,
+    linear-gradient(150deg, #74777f, #2e3036 28%, #1b1c20 55%, #45474e 82%, #26272c) border-box;
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.75),
+    0 2px 6px rgb(0 0 0 / 0.45),
+    0 48px 96px -24px rgb(0 0 0 / 0.8);
+}
+
+.screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 42px;
+  overflow: hidden;
+  background: #000;
+  contain: strict;
+}
+
+/* Keys stand 3px proud of the rim (the rim itself is the 3px border, hence -6px). */
+.side-button {
+  position: absolute;
+  right: -6px;
+  width: 3px;
+  border-radius: 0 2px 2px 0;
+  background: linear-gradient(90deg, #2a2b30, #5d6068);
+  box-shadow: 1px 0 1px rgb(0 0 0 / 0.5);
+  cursor: pointer;
+}
+
+/* A 3px key is too thin to hit; widen the target without drawing it. */
+.side-button::after {
+  content: "";
+  position: absolute;
+  inset: 0 -8px 0 -4px;
+}
+
+.side-button:active {
+  right: -5px;
+}
+
+/* Too short for the native size: shrink to fit; density follows, so pixels go fractional here. */
+@media (max-height: 945px) {
+  .frame {
+    width: auto;
+    height: calc(100dvh - 32px);
+    aspect-ratio: 434 / 914;
+  }
+}
+
+@media (max-width: 560px), (max-height: 560px) {
+  .frame {
+    height: 100dvh;
+    width: 100vw;
+    aspect-ratio: auto;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .screen {
+    border-radius: 0;
+  }
+  .side-button,
+  .punch-hole,
+  .desktop-only {
+    display: none;
+  }
+}

@@ -1,0 +1,18 @@
+services:
+  webdroid:
+    build: .
+    container_name: webdroid
+    restart: unless-stopped
+    ports:
+      - "4321:4321"
+    volumes:
+      - webdroid-data:/app/data
+    networks:
+      - proxy-network
+
+volumes:
+  webdroid-data:
+
+networks:
+  proxy-network:
+    external: true

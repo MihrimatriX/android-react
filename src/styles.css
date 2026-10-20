@@ -1,0 +1,134 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+@import "./palette.css";
+@import "./motion.css";
+@import "./desk.css";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* inline: colours must resolve on .device, where the seed-derived --md-* roles live, not on :root. */
+@theme inline {
+  --font-sans: "Roboto Flex", Roboto, "Segoe UI", system-ui, sans-serif;
+  --color-primary: var(--md-primary);
+  --color-on-primary: var(--md-on-primary);
+  --color-primary-container: var(--md-primary-container);
+  --color-on-primary-container: var(--md-on-primary-container);
+  --color-secondary: var(--md-secondary);
+  --color-secondary-container: var(--md-secondary-container);
+  --color-on-secondary-container: var(--md-on-secondary-container);
+  --color-tertiary: var(--md-tertiary);
+  --color-tertiary-container: var(--md-tertiary-container);
+  --color-on-tertiary-container: var(--md-on-tertiary-container);
+  --color-error: var(--md-error);
+  --color-on-error: var(--md-on-error);
+  --color-error-container: var(--md-error-container);
+  --color-on-error-container: var(--md-on-error-container);
+  --color-surface: var(--md-surface);
+  --color-surface-low: var(--md-surface-low);
+  --color-surface-container: var(--md-surface-container);
+  --color-surface-high: var(--md-surface-high);
+  --color-surface-highest: var(--md-surface-highest);
+  --color-on-surface: var(--md-on-surface);
+  --color-on-surface-variant: var(--md-on-surface-variant);
+  --color-outline: var(--md-outline);
+  --color-outline-variant: var(--md-outline-variant);
+  --color-inverse-surface: var(--md-inverse-surface);
+  --color-inverse-on-surface: var(--md-inverse-on-surface);
+}
+
+@theme inline {
+  /* Material 3 type scale; only text follows the font-size setting, like sp on Android. */
+  --text-display: calc(3.5625rem * var(--font-scale, 1));
+  --text-display--line-height: round(4rem * var(--font-scale, 1), 1px);
+  --text-headline-lg: calc(2rem * var(--font-scale, 1));
+  --text-headline-lg--line-height: round(2.5rem * var(--font-scale, 1), 1px);
+  --text-headline: calc(1.75rem * var(--font-scale, 1));
+  --text-headline--line-height: round(2.25rem * var(--font-scale, 1), 1px);
+  --text-headline-sm: calc(1.5rem * var(--font-scale, 1));
+  --text-headline-sm--line-height: round(2rem * var(--font-scale, 1), 1px);
+  --text-title-lg: calc(1.375rem * var(--font-scale, 1));
+  --text-title-lg--line-height: round(1.75rem * var(--font-scale, 1), 1px);
+  --text-title: calc(1rem * var(--font-scale, 1));
+  --text-title--line-height: round(1.5rem * var(--font-scale, 1), 1px);
+  --text-title--font-weight: 500;
+  --text-title-sm: calc(0.875rem * var(--font-scale, 1));
+  --text-title-sm--line-height: round(1.25rem * var(--font-scale, 1), 1px);
+  --text-title-sm--font-weight: 500;
+  --text-body-lg: calc(1rem * var(--font-scale, 1));
+  --text-body-lg--line-height: round(1.5rem * var(--font-scale, 1), 1px);
+  --text-body: calc(0.875rem * var(--font-scale, 1));
+  --text-body--line-height: round(1.25rem * var(--font-scale, 1), 1px);
+  --text-body-sm: calc(0.75rem * var(--font-scale, 1));
+  --text-body-sm--line-height: round(1rem * var(--font-scale, 1), 1px);
+  --text-label: calc(0.875rem * var(--font-scale, 1));
+  --text-label--line-height: round(1.25rem * var(--font-scale, 1), 1px);
+  --text-label--font-weight: 500;
+  --text-label-sm: calc(0.75rem * var(--font-scale, 1));
+  --text-label-sm--line-height: round(1rem * var(--font-scale, 1), 1px);
+  --text-label-sm--font-weight: 500;
+
+  --radius-4xl: 1.75rem;
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --ease-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  /* A dim desk lit from above; the phone brings its own glow (see Shell). */
+  background: radial-gradient(ellipse 90% 70% at 50% 0%, #1a1c24, #0a0b0e 75%) #0a0b0e;
+  font-family: var(--font-sans);
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.device {
+  user-select: none;
+  -webkit-user-select: none;
+  color: var(--md-on-surface);
+}
+
+.device input,
+.device textarea {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.device * {
+  scrollbar-width: none;
+}
+
+.icon {
+  font-family: "Material Symbols Rounded";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  direction: ltr;
+  display: inline-block;
+  font-feature-settings: "liga";
+  /* opsz follows font-size by itself (font-optical-sizing: auto), so 16px status icons and 28px glyphs each get their own cut. */
+  font-variation-settings:
+    "FILL" var(--icon-fill, 0),
+    "GRAD" var(--icon-grade, 0);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+.icon.filled {
+  --icon-fill: 1;
+}
+
+/* Material's guidance: light glyphs on dark surfaces read heavier, so they drop to grade −25. */
+[data-theme="dark"] {
+  --icon-grade: -25;
+}

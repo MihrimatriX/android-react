@@ -1,0 +1,59 @@
+/* Dynamic colour: every role derives from one seed (taken from the wallpaper) via relative OKLCH. */
+.device {
+  --anim: 1;
+  --md-primary: oklch(from var(--seed) 0.48 clamp(0.06, c, 0.15) h);
+  --md-on-primary: #fff;
+  --md-primary-container: oklch(from var(--seed) 0.9 clamp(0.03, c, 0.07) h);
+  --md-on-primary-container: oklch(from var(--seed) 0.28 clamp(0.05, c, 0.12) h);
+  --md-secondary: oklch(from var(--seed) 0.48 0.04 h);
+  --md-secondary-container: oklch(from var(--seed) 0.91 0.03 h);
+  --md-on-secondary-container: oklch(from var(--seed) 0.28 0.04 h);
+  --md-tertiary: oklch(from var(--seed) 0.5 0.08 calc(h + 60));
+  --md-tertiary-container: oklch(from var(--seed) 0.91 0.05 calc(h + 60));
+  --md-on-tertiary-container: oklch(from var(--seed) 0.28 0.07 calc(h + 60));
+  --md-error: #ba1a1a;
+  --md-on-error: #fff;
+  --md-error-container: #ffdad6;
+  --md-on-error-container: #410002;
+  --md-surface: oklch(from var(--seed) 0.985 0.005 h);
+  --md-surface-low: oklch(from var(--seed) 0.965 0.008 h);
+  --md-surface-container: oklch(from var(--seed) 0.95 0.01 h);
+  --md-surface-high: oklch(from var(--seed) 0.935 0.012 h);
+  --md-surface-highest: oklch(from var(--seed) 0.915 0.014 h);
+  --md-on-surface: oklch(from var(--seed) 0.22 0.01 h);
+  --md-on-surface-variant: oklch(from var(--seed) 0.42 0.02 h);
+  --md-outline: oklch(from var(--seed) 0.58 0.02 h);
+  --md-outline-variant: oklch(from var(--seed) 0.84 0.015 h);
+  --md-inverse-surface: oklch(from var(--seed) 0.3 0.01 h);
+  --md-inverse-on-surface: oklch(from var(--seed) 0.95 0.008 h);
+  color-scheme: light;
+}
+
+.device[data-theme="dark"] {
+  --md-primary: oklch(from var(--seed) 0.82 clamp(0.05, c, 0.12) h);
+  --md-on-primary: oklch(from var(--seed) 0.3 0.08 h);
+  --md-primary-container: oklch(from var(--seed) 0.38 clamp(0.05, c, 0.12) h);
+  --md-on-primary-container: oklch(from var(--seed) 0.92 0.05 h);
+  --md-secondary: oklch(from var(--seed) 0.82 0.04 h);
+  --md-secondary-container: oklch(from var(--seed) 0.36 0.04 h);
+  --md-on-secondary-container: oklch(from var(--seed) 0.92 0.03 h);
+  --md-tertiary: oklch(from var(--seed) 0.82 0.07 calc(h + 60));
+  --md-tertiary-container: oklch(from var(--seed) 0.38 0.07 calc(h + 60));
+  --md-on-tertiary-container: oklch(from var(--seed) 0.92 0.05 calc(h + 60));
+  --md-error: #ffb4ab;
+  --md-on-error: #690005;
+  --md-error-container: #93000a;
+  --md-on-error-container: #ffdad6;
+  --md-surface: oklch(from var(--seed) 0.17 0.008 h);
+  --md-surface-low: oklch(from var(--seed) 0.2 0.01 h);
+  --md-surface-container: oklch(from var(--seed) 0.22 0.012 h);
+  --md-surface-high: oklch(from var(--seed) 0.26 0.014 h);
+  --md-surface-highest: oklch(from var(--seed) 0.3 0.016 h);
+  --md-on-surface: oklch(from var(--seed) 0.92 0.01 h);
+  --md-on-surface-variant: oklch(from var(--seed) 0.8 0.02 h);
+  --md-outline: oklch(from var(--seed) 0.62 0.02 h);
+  --md-outline-variant: oklch(from var(--seed) 0.38 0.015 h);
+  --md-inverse-surface: oklch(from var(--seed) 0.92 0.01 h);
+  --md-inverse-on-surface: oklch(from var(--seed) 0.28 0.01 h);
+  color-scheme: dark;
+}
